@@ -30,11 +30,15 @@ class Inference(Resource):
 
     # Corresponds to POST request
     def post(self):
-        img = request.files['image']
-        image = cv2.imdecode(np.frombuffer(img.read(), np.uint8), cv2.IMREAD_COLOR)
+        files = request.files
+
+        print(f"Files: {type(files)}, {type(files)}")
+        # img = request.files['image']
+        # image = cv2.imdecode(np.frombuffer(img.read(), np.uint8), cv2.IMREAD_COLOR)
         # print(f"Image shape: {image.shape}")
         result_time = time.time()
-        result = fp_model.detect(image)
+        # result = fp_model.get_pandas_l/ist(image)
+        # print(f"Result Type: {type(result[0].to_dict(orient='records'))}")
         result_time = time.time() - result_time
         # j_data = request.json  # status code
         return jsonify({'message': "Hello World", 'time': result_time})

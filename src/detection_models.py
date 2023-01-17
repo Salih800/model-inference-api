@@ -80,6 +80,10 @@ class DetectionModel:
 
         return json_results
 
+    def get_pandas_list(self, images):
+        result = self.detect(images)
+        return result.pandas().xyxy[0].to_dict(orient="records")
+
     def get_pandas_result(self, image_path):
         result = self.detect(image_path)
         return result.pandas().xyxy[0]
