@@ -7,7 +7,7 @@ import string
 import base64
 import time
 import logging
-from socketserver import StreamRequestHandler, TCPServer
+from socketserver import StreamRequestHandler, TCPServer, ThreadingTCPServer
 
 import json
 
@@ -61,7 +61,7 @@ class DumpHandler(StreamRequestHandler):
 def main() -> None:
     server_address = ('localhost', 5001)
     print('starting up on {}:{}'.format(*server_address))
-    with TCPServer(server_address, DumpHandler) as server:
+    with ThreadingTCPServer(server_address, DumpHandler) as server:
         print('waiting for a connection')
         server.serve_forever()
 
