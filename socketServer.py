@@ -40,6 +40,8 @@ class DumpHandler(StreamRequestHandler):
         """receive json packets from client"""
         print('connection from {}:{}'.format(*self.client_address))
         try:
+            frame_count = 0
+            start_time = time.time()
             while True:
                 data = self.rfile.readline()
                 if not data:
@@ -52,6 +54,9 @@ class DumpHandler(StreamRequestHandler):
                     logging.warning(f"Image shape: {image.shape} | size: {image.size}")
                     logging.error(e, exc_info=True)
                     continue
+                frame_count += 1
+                fps = frame_count / (time.time() - start_time)
+                print(f"{self.client_address} | FPS: {fps}")
                 # print(result)
                 # print(f"Type: {type(result)}")
                 json_dict = {"result": result}
