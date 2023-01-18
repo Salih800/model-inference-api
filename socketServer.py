@@ -55,6 +55,8 @@ class DumpHandler(StreamRequestHandler):
                     logging.error(e, exc_info=True)
                     continue
                 frame_count += 1
+                if frame_count == 1:
+                    start_time = time.time()
                 fps = frame_count / (time.time() - start_time)
                 print(f"{self.client_address} | FPS: {fps}")
                 # print(result)
