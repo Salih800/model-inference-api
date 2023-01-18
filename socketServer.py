@@ -46,7 +46,12 @@ class DumpHandler(StreamRequestHandler):
                     break
                 json_string = json.loads(data.decode().rstrip())
                 image = decode_image(json_string["image"])
-                result = fp_model.get_pandas_list(image)
+                try:
+                    result = fp_model.get_pandas_list(image)
+                except RuntimeError as e:
+                    logging.warning(f"Image shape: {image.shape} | size: {image.size}")
+                    logging.error(e, exc_info=True)
+                    continue
                 # print(result)
                 # print(f"Type: {type(result)}")
                 json_dict = {"result": result}
