@@ -85,7 +85,7 @@ class DumpHandler(StreamRequestHandler):
 
 
 def main() -> None:
-    server_address = ('localhost', 5002)
+    server_address = ('localhost', 5003)
     print('starting up on {}:{}'.format(*server_address))
     with ThreadingTCPServer(server_address, DumpHandler) as server:
         print('waiting for a connection')
