@@ -104,7 +104,8 @@ class Checker(Thread):
 
     def run(self):
         while True:
-            print(f"Number of clients: {len(clients)} | {list(map(str, clients))}")
+            if not len(clients) == 0:
+                print(f"Number of clients: {len(clients)} | {list(map(str, clients))}")
             time.sleep(5)
 
 
