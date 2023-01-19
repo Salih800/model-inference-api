@@ -10,6 +10,7 @@ import logging
 from socketserver import StreamRequestHandler, TCPServer, ThreadingTCPServer
 
 import json
+from threading import Thread
 
 from typing import Dict, Any
 
@@ -36,8 +37,10 @@ def decode_image(image_string: str) -> Image:
 
 
 class DumpHandler(StreamRequestHandler):
+
     def handle(self) -> None:
         """receive json packets from client"""
+        clients.append(self)
         print('connection from {}:{}'.format(*self.client_address))
         try:
             frame_count = 0
@@ -58,7 +61,7 @@ class DumpHandler(StreamRequestHandler):
                 if frame_count == 1:
                     start_time = time.time()
                 fps = frame_count / (time.time() - start_time)
-                print(f"{self.client_address} | FPS: {fps}")
+                # print(f"{self.client_address} | FPS: {fps}")
                 # print(result)
                 # print(f"Type: {type(result)}")
                 json_dict = {"result": result}
@@ -76,6 +79,20 @@ def main() -> None:
     with ThreadingTCPServer(server_address, DumpHandler) as server:
         print('waiting for a connection')
         server.serve_forever()
+
+
+clients: list[StreamRequestHandler] = []
+
+
+class Checker(Thread):
+    def __init__(self):
+        super().__init__(daemon=True, name="Checker")
+        self.start()
+
+    def run(self):
+        while True:
+            print(f"Number of clients: {len(clients)} | {clients}")
+            time.sleep(1)
 
 
 if __name__ == '__main__':
