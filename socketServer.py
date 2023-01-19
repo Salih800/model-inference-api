@@ -37,17 +37,21 @@ def decode_image(image_string: str) -> Image:
 
 
 class DumpHandler(StreamRequestHandler):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.frame_count = 0
+        self.start_time = time.time()
 
     def __str__(self):
-        return f"{self.client_address}"
+        return f"{self.client_address} | FPS: {self.get_fps()}"
 
     def handle(self) -> None:
         """receive json packets from client"""
         clients.append(self)
         print('connection from {}:{}'.format(*self.client_address))
         try:
-            frame_count = 0
-            start_time = time.time()
+            # frame_count = 0
+            # start_time = time.time()
             while True:
                 data = self.rfile.readline()
                 if not data:
@@ -60,10 +64,10 @@ class DumpHandler(StreamRequestHandler):
                     logging.warning(f"Image shape: {image.shape} | size: {image.size}")
                     logging.error(e, exc_info=True)
                     continue
-                frame_count += 1
-                if frame_count == 1:
-                    start_time = time.time()
-                fps = frame_count / (time.time() - start_time)
+                self.frame_count += 1
+                # if frame_count == 1:
+                #     start_time = time.time()
+                # fps = frame_count / (time.time() - start_time)
                 # print(f"{self.client_address} | FPS: {fps}")
                 # print(result)
                 # print(f"Type: {type(result)}")
@@ -74,6 +78,9 @@ class DumpHandler(StreamRequestHandler):
             logging.error(f"{self.client_address}: {e}", exc_info=True)
         finally:
             print('disconnected from {}:{}'.format(*self.client_address))
+
+    def get_fps(self):
+        return self.frame_count / (time.time() - self.start_time)
 
 
 def main() -> None:
