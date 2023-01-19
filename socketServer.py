@@ -78,6 +78,7 @@ class DumpHandler(StreamRequestHandler):
             logging.error(f"{self.client_address}: {e}", exc_info=True)
         finally:
             print('disconnected from {}:{}'.format(*self.client_address))
+            clients.remove(self)
 
     def get_fps(self):
         return self.frame_count / (time.time() - self.start_time)
