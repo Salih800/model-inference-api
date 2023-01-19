@@ -38,6 +38,9 @@ def decode_image(image_string: str) -> Image:
 
 class DumpHandler(StreamRequestHandler):
 
+    def __str__(self):
+        return f"{self.client_address}"
+
     def handle(self) -> None:
         """receive json packets from client"""
         clients.append(self)
@@ -91,7 +94,7 @@ class Checker(Thread):
 
     def run(self):
         while True:
-            print(f"Number of clients: {len(clients)} | {clients}")
+            print(f"Number of clients: {len(clients)} | {list(map(str, clients))}")
             time.sleep(5)
 
 
