@@ -95,6 +95,9 @@ class Checker(Thread):
             time.sleep(5)
 
 
+Checker()
+
+
 if __name__ == '__main__':
     try:
         fp_model = FPBlurring()
