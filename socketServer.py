@@ -81,7 +81,7 @@ def main() -> None:
         server.serve_forever()
 
 
-clients: list[StreamRequestHandler] = []
+clients = []
 
 
 class Checker(Thread):
