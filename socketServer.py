@@ -37,18 +37,18 @@ def decode_image(image_string: str) -> Image:
 
 
 class DumpHandler(StreamRequestHandler):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.frame_count = 0
-        self.start_time = time.time()
-
     def __str__(self):
         return f"{self.client_address} | FPS: {self.get_fps()}"
 
-    def handle(self) -> None:
-        """receive json packets from client"""
+    def init(self):
         clients.append(self)
         print('connection from {}:{}'.format(*self.client_address))
+        self.frame_count = 0
+        self.start_time = time.time()
+
+    def handle(self) -> None:
+        """receive json packets from client"""
+        self.init()
         try:
             # frame_count = 0
             # start_time = time.time()
