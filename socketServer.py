@@ -81,7 +81,7 @@ class DumpHandler(StreamRequestHandler):
             clients.remove(self)
 
     def get_fps(self):
-        return self.frame_count / (time.time() - self.start_time)
+        return round(self.frame_count / (time.time() - self.start_time), 2)
 
 
 def main() -> None:
