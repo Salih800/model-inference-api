@@ -58,12 +58,12 @@ class DumpHandler(StreamRequestHandler):
                     break
                 json_string = json.loads(data.decode().rstrip())
                 image = decode_image(json_string["image"])
-                try:
-                    result = fp_model.get_pandas_list(image)
-                except RuntimeError as e:
-                    logging.warning(f"Image shape: {image.shape} | size: {image.size}")
-                    logging.error(e, exc_info=True)
-                    continue
+                # try:
+                #     result = fp_model.get_pandas_list(image)
+                # except RuntimeError as e:
+                #     logging.warning(f"Image shape: {image.shape} | size: {image.size}")
+                #     logging.error(e, exc_info=True)
+                #     continue
                 self.frame_count += 1
                 # if frame_count == 1:
                 #     start_time = time.time()
@@ -71,8 +71,8 @@ class DumpHandler(StreamRequestHandler):
                 # print(f"{self.client_address} | FPS: {fps}")
                 # print(result)
                 # print(f"Type: {type(result)}")
-                json_dict = {"result": result}
-                self.wfile.write(generate_json_message(json_dict))
+                # json_dict = {"result": result}
+                # self.wfile.write(generate_json_message(json_dict))
 
         except Exception as e:
             logging.error(f"{self.client_address}: {e}", exc_info=True)
@@ -111,7 +111,7 @@ Checker()
 
 if __name__ == '__main__':
     try:
-        fp_model = FPBlurring()
+        # fp_model = FPBlurring()
         main()
     except KeyboardInterrupt:
         pass
