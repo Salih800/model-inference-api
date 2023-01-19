@@ -92,8 +92,8 @@ def main() -> None:
         server.serve_forever()
 
 
-server_ip = "93.113.96.30"
-server_port = 5003
+server_ip = "localhost"
+server_port = 5002
 clients = []
 
 
