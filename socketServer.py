@@ -92,7 +92,7 @@ class Checker(Thread):
     def run(self):
         while True:
             print(f"Number of clients: {len(clients)} | {clients}")
-            time.sleep(1)
+            time.sleep(5)
 
 
 if __name__ == '__main__':
